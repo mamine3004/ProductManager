@@ -1,5 +1,6 @@
 ﻿using coreLayer;
 using dataLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,24 +27,43 @@ namespace serviceLayer.Products
 
         public List<Product> allProducts()
         {
-            List<Product> products = _context.products.ToList();
+            List<Product> products = _context.products.Include(p => p.Categorie).ToList();
             return products;
         }
 
-        public Product deleteProduct(int idp)
+        public Product? deleteProduct(int idp)
         {
-            throw new NotImplementedException();
+            Product? productModel = _context.products.FirstOrDefault(x => x.Id == idp);
+            if (productModel == null)
+            {
+                return null;
+            }
+            _context.products.Remove(productModel);
+
+            _context.SaveChanges();
+
+            return productModel;
         }
 
         public Product FindById(int id)
         {
-            Product p = _context.products.FirstOrDefault(p => p.Id == id);
+            Product p = _context.products.Include(p => p.Categorie).FirstOrDefault(p => p.Id == id);
             return p;
         }
 
-        public int updateProduct(Product po, int idp)
+        public Product? updateProduct(Product po, int idp)
         {
-            throw new NotImplementedException();
+            Product? productModel = _context.products.Include(p => p.Categorie).FirstOrDefault(x => x.Id == idp);
+            if (productModel == null)
+            {
+                return null;
+            }
+            productModel.Designation = po.Designation;
+            productModel.Qte = po.Qte;
+            productModel.Prix = po.Prix;
+
+            _context.SaveChanges();
+            return productModel;
         }
     }
 }

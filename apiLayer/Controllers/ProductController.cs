@@ -39,15 +39,17 @@ namespace apiLayer.Controllers
         }
 
         //// PUT api/<ProductController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{id}")]
+        public Product? Put(int id, [FromBody] Product po)
+        {
+            return productService.updateProduct(po,id);
+        }
 
         //// DELETE api/<ProductController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public Product? Delete(int id)
+        {
+            return productService.deleteProduct(id);
+        }
     }
 }

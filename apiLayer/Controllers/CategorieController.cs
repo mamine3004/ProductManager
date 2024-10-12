@@ -41,15 +41,17 @@ namespace apiLayer.Controllers
         }
 
         //// PUT api/<CategorieController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{id}")]
+        public Categorie? Put(int id, [FromBody] Categorie ct)
+        {
+            return categorieService.updateCategorie(ct, id);
+        }
 
         //// DELETE api/<CategorieController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public Categorie? Delete(int id)
+        {
+            return categorieService.deleteCategorie(id);
+        }
     }
 }

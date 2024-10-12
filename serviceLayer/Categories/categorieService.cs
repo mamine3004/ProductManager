@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,25 +28,42 @@ namespace serviceLayer.Categories
 
         public List<Categorie> allCategories()
         {
-            List<Categorie> categories = _context.categories.ToList();
+            List<Categorie> categories = _context.categories.Include(p => p.Products).ToList();
             return categories;
         }
 
-        public int deleteCategorie(int idc)
+        public Categorie? deleteCategorie(int idc)
         {
-            throw new NotImplementedException();
+            Categorie? categorieModel = _context.categories.FirstOrDefault(x => x.Id == idc);
+            if (categorieModel == null)
+            {
+                return null;
+            }
+            _context.categories.Remove(categorieModel);
+
+            _context.SaveChanges();
+
+            return categorieModel;
         }
 
         public Categorie FindById(int id)
         {
-            Categorie c = _context.categories.FirstOrDefault(c=>c.Id==id);
+            Categorie c = _context.categories.Include(p => p.Products).FirstOrDefault(c=>c.Id==id);
             return c;
 
         }
 
-        public int updateCategorie(Categorie ct, int idc)
+        public Categorie? updateCategorie(Categorie ct, int idc)
         {
-            throw new NotImplementedException();
+            Categorie? categorieModel = _context.categories.Include(p => p.Products).FirstOrDefault(x => x.Id == idc);
+            if (categorieModel == null)
+            {
+                return null;
+            }
+            categorieModel.Libelle = ct.Libelle;
+
+            _context.SaveChanges();
+            return categorieModel;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace serviceLayer.Products
         int addProduct(Product po);
         Product FindById(int id);
         List<Product> allProducts();
-        int updateProduct(Product po, int idp);
-        Product deleteProduct(int idp);
+        Product? updateProduct(Product po, int idp);
+        Product? deleteProduct(int idp);
     }
 }

@@ -12,7 +12,7 @@ namespace serviceLayer.Categories
         int addCategorie(Categorie ct);
         Categorie FindById(int id);
         List<Categorie> allCategories();
-        int updateCategorie(Categorie ct,int idc);
-        int deleteCategorie(int idc);
+        Categorie? updateCategorie(Categorie ct,int idc);
+        Categorie? deleteCategorie(int idc);
     }
 }
